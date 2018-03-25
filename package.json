@@ -1,0 +1,25 @@
+{
+  "name": "via-server-side",
+  "version": "1.0.0",
+  "description": "via",
+  "main": "init.js",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongodb": "^3.0.5",
+    "socket.io": "^2.0.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ceifa/Via-Server-Side.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ceifa/Via-Server-Side/issues"
+  },
+  "homepage": "https://github.com/ceifa/Via-Server-Side#readme"
+}
