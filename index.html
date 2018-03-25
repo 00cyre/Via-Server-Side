@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+        $(function () {
+            var socket = io();
+            $('input').on("change keyup", function(){
+                socket.emit('test', $(this).val());
+            });
+        });
+    </script>
+  </head>
+  <body>
+      <input type="text" />
+  </body>
+</html>
