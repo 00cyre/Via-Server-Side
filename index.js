@@ -1,6 +1,8 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+const vision = require('@google-cloud/vision');
+const client = new vision.ImageAnnotatorClient();
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
@@ -12,7 +14,23 @@ io.on('connection', function(socket){
     console.log('user disconnected');
   });
   socket.on('test', function(msg){
-    console.log('Chegou: ' + msg);
+    let base64EncodedImage = msg
+
+    require("fs").writeFile("out.png", base64EncodedImage, 'base64', function(err) {
+      if (err){
+        console.log(err);
+      }
+    });
+
+    client
+      .textDetection("out.png")
+      .then(results => {
+        const detections = results[0].fullTextAnnotation.text;
+        console.log(detections);
+      })
+      .catch(err => {
+        console.error('ERROR:', err);
+      });
   });
 });
 
