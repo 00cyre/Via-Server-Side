@@ -3,7 +3,7 @@ const client = new vision.ImageAnnotatorClient({
     keyFilename: '../googlekey.json'
 })
 
-class ImageRecognition {
+module.exports = class ImageRecognition {
     async getImageRecognitionResponse(fileDir) {
         return await new Promise(async(res) => {
             client
@@ -22,5 +22,3 @@ class ImageRecognition {
         return recognitionResponse.fullTextAnnotation.text
     }
 }
-
-module.exports = new ImageRecognition()

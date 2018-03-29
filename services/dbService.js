@@ -1,11 +1,9 @@
-module.exports = class dbService {
-    constructor(db) {
-        this._db = db
-        console.log('Created new dbService')
-    }
+const container = require('../injector/container')
+const dbManager = container.getInstanceOf(require('../db/conn'))
 
-    checkIfCollectionExists(collection) {
-        let cols = this._db.listCollections({ name: collection })
+module.exports = class dbService {
+    static checkIfCollectionExists(db, collection) {
+        let cols = db.listCollections({ name: collection })
         console.log(`Checking if ${collection} exists...`)
         cols.next((err, collinfo) => {
             if (collinfo) {

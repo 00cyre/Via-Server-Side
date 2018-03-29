@@ -1,17 +1,18 @@
-const db = require('./conn.js')
-const dbService = require('../services/dbService.js')
+const container = require('../injector/container')
+const dbConnector = container.getInstanceOf(require('./conn'))
+const dbService = require('../services/dbService')
 
 module.exports = class DB {
     constructor(collection) {
         this._collection = collection
-        db.getConnection((dbManager) => {
-            this._db = dbManager
-            this._dbService = new dbService(this._db)
+        this.init()
+    }
 
+    async init() {
+        this._db = await dbConnector.getConnection()
 
-            if (!this._dbService.checkIfCollectionExists(this._collection))
-                this.createCollection()
-        })
+        if (!dbService.checkIfCollectionExists(this._db, this._collection))
+            this.createCollection()
     }
 
     async createCollection() {

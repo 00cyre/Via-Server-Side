@@ -1,3 +1,5 @@
-exports.getBrailleFromText = (text) => {
-    return text
+module.exports = class Translator {
+    getBrailleFromText(text) {
+        return text
+    }
 }

@@ -1,10 +1,12 @@
 const app = require('express')()
 const http = require('http').Server(app)
 const io = require('socket.io')(http)
-const sockets = require('./via/socket')(io)
+const container = require('./injector/container')
+const sockets = container.getInstanceOf(require('./via/socket'))
 
 http.listen(3000, function() {
-    console.log('listening on *:3000')
+    console.log('Listening on *:3000')
+    sockets.connect(io)
 })
 
 app.get('/', function(req, res) {

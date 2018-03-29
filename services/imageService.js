@@ -1,10 +1,10 @@
+const container = require('../injector/container')
 const db = require('../db/db')
 const collection = 'images'
 
-class ImageService {
+module.exports = class ImageService {
     constructor() {
         this._db = new db(collection)
-        console.log('Created new imageService')
     }
 
     async insertImage(user) {
@@ -16,5 +16,3 @@ class ImageService {
         })
     }
 }
-
-module.exports = new ImageService()

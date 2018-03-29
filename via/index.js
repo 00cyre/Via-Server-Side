@@ -1,7 +1,8 @@
 const fs = require('fs')
-const vision = require('./vision')
-const imageService = require('../services/imageService')
-const translator = require('./translator')
+const container = require('../injector/container')
+const vision = container.getInstanceOf(require('./vision'))
+const imageService = container.getInstanceOf(require('../services/imageService'))
+const translator = container.getInstanceOf(require('./translator'))
 
 exports.writeBase64InPNGFile = async(name, base64file) => {
     let saveDir = `./images/${name}.png`
