@@ -1,16 +1,26 @@
 const vision = require('@google-cloud/vision')
-const client = new vision.ImageAnnotatorClient()
+const client = new vision.ImageAnnotatorClient({
+    keyFilename: '../googlekey.json'
+})
 
-exports.getImageText = async(fileDir) => {
-    return new Promise(text => {
-        client
-            .textDetection(fileDir)
-            .then(results => {
-                let detections = results[0].fullTextAnnotation.text
-                text(detections)
-            })
-            .catch(err => {
-                console.error('ERROR:', err)
-            })
-    })
+class ImageRecognition {
+    async getImageRecognitionResponse(fileDir) {
+        return await new Promise(async(res) => {
+            client
+                .textDetection(fileDir)
+                .then(results => {
+                    res(results[0])
+                })
+                .catch(err => {
+                    console.error('ERROR:', err)
+                })
+        })
+    }
+
+    async getTextFromImage(fileDir) {
+        let recognitionResponse = await this.getImageRecognitionResponse(fileDir)
+        return recognitionResponse.fullTextAnnotation.text
+    }
 }
+
+module.exports = new ImageRecognition()

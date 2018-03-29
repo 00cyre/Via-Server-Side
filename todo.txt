@@ -1,3 +1,0 @@
-colocar o db global
-colocar crud completo no db
-criar um dal para as classes com db

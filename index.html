@@ -6,7 +6,12 @@
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
         $(function() {
-            var socket = io()
+            var socket = io('http://localhost:3000?userid=' + Math.floor((Math.random() * 10) + 1))
+
+            socket.on('testclient', function(data) {
+                console.log(data)
+            })
+
             $('input[type="file"]').on("change keyup file", async function() {
                 let imageEncoded = await Base64Encode(this.files[0])
                 socket.emit('test', imageEncoded)

@@ -2,15 +2,18 @@ const index = require('./index.js')
 
 this.Init = async() => {
     await this.io.on('connection', async(socket) => {
-        console.log('a user connected')
+        let userid = socket.handshake.query.userid
+        console.log(`A user connected. UserId: ${userid}`)
         socket.on('disconnect', () => {
-            console.log('user disconnected')
+            console.log(`User disconnected. UserId: ${userid}`)
         })
         socket.on('test', async(msg) => {
-            index.getBrailleFromBase64Image(msg)
+            let toSend = await index.getBrailleFromBase64Image(userid, msg)
+            console.log(`Sending ${toSend} to user. UserId: ${userid}`)
+            socket.emit('testclient', toSend)
         })
     })
-    console.log('sockets initialized')
+    console.log('Sockets initialized')
 }
 
 module.exports = async(io) => {
