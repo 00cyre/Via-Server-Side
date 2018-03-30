@@ -2,7 +2,7 @@ let _dependencies = []
 
 module.exports = class Container {
     static getInstanceOf(dependency) {
-        let service = _dependencies.filter(x => x.dependency == dependency)[0]
+        let service = _dependencies.find(x => x.dependency == dependency)
         let instance
 
         if (!service) {
