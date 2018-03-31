@@ -2,7 +2,7 @@ const fs = require('fs')
 const container = require('../injector/container')
 const vision = container.getInstanceOf(require('./vision'))
 const imageService = container.getInstanceOf(require('../services/imageService'))
-const translator = container.getInstanceOf(require('../braille/translator'))
+const brailleTranslator = require('../braille/translator')
 
 exports.writeBase64InPNGFile = async(name, base64file) => {
     let saveDir = `./images/${name}.png`
@@ -22,6 +22,6 @@ exports.getBrailleFromBase64Image = async(userid, base64file) => {
     let imageId = insertImageResponse.insertedId
     let file = await this.writeBase64InPNGFile(imageId, base64file)
     let text = await vision.getTextFromImage(file)
-    let braille = await translator.getBrailleFromText(text)
+    let braille = new brailleTranslator(text).getBrailleFromText()
     return braille
 }

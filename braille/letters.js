@@ -1,4 +1,28 @@
 module.exports = [{
+        letter: 'NUMBER',
+        braille: [
+            [0, 1],
+            [0, 1],
+            [1, 1]
+        ]
+    },
+    {
+        letter: 'LETTER',
+        braille: [
+            [0, 0],
+            [0, 1],
+            [0, 1]
+        ]
+    },
+    {
+        letter: 'CAPITAL',
+        braille: [
+            [0, 0],
+            [0, 0],
+            [0, 1]
+        ]
+    },
+    {
         letter: 'A',
         braille: [
             [1, 0],
@@ -202,14 +226,6 @@ module.exports = [{
         letter: 'Z',
         braille: [
             [1, 0],
-            [0, 1],
-            [1, 1]
-        ]
-    },
-    {
-        letter: '#',
-        braille: [
-            [0, 1],
             [0, 1],
             [1, 1]
         ]
