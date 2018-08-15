@@ -1,59 +1,58 @@
 const container = require('../injector/container')
 const dbConnector = container.getInstanceOf(require('./conn'))
 const dbService = require('../services/dbService')
+const mysql = require('mysql')
 
-module.exports = class DB {
+    var con = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "",
+        database: "via"
+    })
+    module.exports = class DB {
     constructor(collection) {
-        this._collection = collection
-        this.init()
     }
 
-    async init() {
-        this._db = await dbConnector.getConnection()
 
-        if (!dbService.checkIfCollectionExists(this._db, this._collection))
-            this.createCollection()
+
+
+    select(idpic, callback) 
+    {
+        var sql ="SELECT `text` FROM `pic` WHERE `idpic` = " + idpic 
+        con.query(sql, function (err, result, fields) {
+            if (err)
+            {
+            	callback(err, null);
+            } else {
+
+                callback(null, result[0].text);
+            }
+            }
+            //console.log("Selected " + x1);
+        )
     }
-
-    async createCollection() {
-        await this._db.createCollection(this._collection, (err, res) => {
-            if (err) throw err
-            console.log(`Collection ${this._collection} created successfully.`)
-        })
-    }
-
-    async deleteCollection() {
-        await this._db.collection(this._collection).drop(function(err, res) {
-            if (err) throw err
-            if (res) console.log(`Collection ${this._collectio} successfully deleted`)
-        })
-    }
-
-    async insert(toInsert) {
+    
+    async insert(image,text) {
         return await new Promise(async(response) => {
-            await this._db.collection(this._collection).insertOne(toInsert, (err, res) => {
-                if (err) throw err
-                console.log(`Inserted ${JSON.stringify(toInsert)} into ${this._collection}`)
-                response(res)
+            
+            //console.log(text);
+            
+            
+            var sql = "INSERT INTO `pic`(`idpic`, `image`,`text`) VALUES (NULL, '" + image + "', '" + text + "');";
+            console.log(sql);
+            con.query(sql, function (err, result) {
+                if (err)
+                {
+                    console.log(err);
+                }
+                else
+                {
+                    //console.log(toInsert);
+                    console.log("1 record inserted");
+                }
             })
         })
     }
 
-    async delete(toDelete) {
-        await this._db.collection(this._collection).deleteOne(toDelete, function(err, res) {
-            if (err) throw err
-            console.log(`Deleted ${toDelete} from ${this._collection}`)
-        })
-    }
-
-    async update(toUpdate, newValues) {
-        await this._db.collection(this._collection).updateOne(toUpdate, newValues, function(err, res) {
-            if (err) throw err
-            console.log(`Updated ${toUpdate} to ${newValues} into ${this._collection}`)
-        })
-    }
-
-    getManager() {
-        return this._db.collection(this._collection)
-    }
+    
 }

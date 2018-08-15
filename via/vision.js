@@ -7,7 +7,7 @@ module.exports = class ImageRecognition {
     async getImageRecognitionResponse(fileDir) {
         return await new Promise(async(res) => {
             client
-                .textDetection(fileDir)
+                .documentTextDetection(fileDir)
                 .then(results => {
                     res(results[0])
                 })
@@ -19,6 +19,12 @@ module.exports = class ImageRecognition {
 
     async getTextFromImage(fileDir) {
         let recognitionResponse = await this.getImageRecognitionResponse(fileDir)
+        if (recognitionResponse)
+        {
         return recognitionResponse.fullTextAnnotation.text
+    }
+    else{
+        console.log("Não Consegui identificar palavras.")
+    }
     }
 }
